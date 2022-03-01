@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:rest_api_integration/Model/newsInfo.dart';
 import 'package:rest_api_integration/Services/api_manages.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -16,7 +15,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-  _newsModel  =  Api_Manager().getNews();
+
+    //_newsModel = Api_Manager().getNews();
+
+    //_newsModel = api2().getMyData();
+
+     _newsModel= api().getData();
     print("-----------------------------------------------");
     print(_newsModel);
     print("-----------------------------------------------");
@@ -27,18 +31,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("News App",),
+        title: const Text(
+          "News App",
+        ),
         centerTitle: true,
       ),
       body: Container(
         child: FutureBuilder<NewsModel>(
           future: _newsModel,
-          builder: (context,snapshot){
-            if(snapshot.hasData){
-              return  ListView.builder(
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
                 itemCount: snapshot.data.articles.length,
-                itemBuilder: (context,index){
-                   var articles = snapshot.data.articles[index];
+                itemBuilder: (context, index) {
+                  var articles = snapshot.data.articles[index];
                   return Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Container(
@@ -53,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(24),
                             ),
                             child: AspectRatio(
-                                aspectRatio: 1,
+                              aspectRatio: 1,
                               child: Image.network(
                                 articles.urlToImage,
                                 fit: BoxFit.cover,
@@ -65,15 +71,16 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(articles.title,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-
+                                Text(
+                                  articles.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                ),
-                                Text(articles.description,
-                                overflow: TextOverflow.ellipsis,
+                                Text(
+                                  articles.description,
+                                  overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
                               ],
@@ -85,11 +92,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               );
-            }
-            else {
-              return Center(
-                  child: CircularProgressIndicator(),
-
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
           },

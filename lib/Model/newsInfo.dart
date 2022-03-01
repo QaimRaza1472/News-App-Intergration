@@ -14,7 +14,6 @@ class NewsModel {
     this.totalResults,
     this.articles,
   });
-
   String status;
   int totalResults;
   List<Article> articles;
